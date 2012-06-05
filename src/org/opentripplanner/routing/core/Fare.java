@@ -75,7 +75,7 @@ public class Fare {
 //    }
 
     public Fare() {
-    	Log.v(TAG, "Fare constructor");
+//    	Log.v(TAG, "Fare constructor");
 //        fare = new HashMap<FareType, Money>();
     	fare = new ArrayList<Entry>();
     }
@@ -86,17 +86,17 @@ public class Fare {
 //    }
     
     public void addFare(FareType fareType, WrappedCurrency currency, int cents) {
-    	Log.v(TAG, "add Fare");
+//    	Log.v(TAG, "add Fare");
         fare.add(new Entry(fareType, new Money(currency, cents)));
     }
     
     public void addFare(Entry entry) {
-    	Log.v(TAG, "add Fare");
+//    	Log.v(TAG, "add Fare");
     	fare.add(entry);
     }
     
     public Money getFare(FareType type) {
-    	Log.v(TAG, "get Fare");
+//    	Log.v(TAG, "get Fare");
     	for(int i=0; i<fare.size(); i++){
     		Entry e = fare.get(i);
     		if(e.key.equals(type)) {

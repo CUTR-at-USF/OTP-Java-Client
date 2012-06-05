@@ -39,6 +39,12 @@ public class GraphMetadata {
 
 	@ElementList(required=false)
     private HashSet<TraverseMode> transitModes = new HashSet<TraverseMode>();
+	
+	@Element(required=false)
+	private double centerLatitude;
+
+	@Element(required=false)
+    private double centerLongitude;
     
     @Root
     public GraphMetadata() {
@@ -221,5 +227,21 @@ public class GraphMetadata {
 
     public void setTransitModes(HashSet<TraverseMode> transitModes) {
         this.transitModes = transitModes;
+    }
+    
+    public double getCenterLongitude() {
+        return centerLongitude;
+    }
+
+    public void setCenterLongitude(double centerLongitude) {
+        this.centerLongitude = centerLongitude;
+    }
+
+    public double getCenterLatitude() {
+        return centerLatitude;
+    }
+
+    public void setCenterLatitude(double centerLatitude) {
+        this.centerLatitude = centerLatitude;
     }
 }

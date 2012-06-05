@@ -16,12 +16,15 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 
 import org.opentripplanner.routing.core.Fare;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
+
+import android.util.Log;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -34,6 +37,8 @@ import com.google.gson.annotations.SerializedName;
  * An Itinerary is one complete way of getting from the start location to the end location.
  */
 public class Itinerary {
+	
+	private static final String TAG = "OTP";
 	
 	public Itinerary(){
 		
@@ -51,6 +56,17 @@ public class Itinerary {
 	//TODO - fix date parsing
 	@Element(required=false)
 	public String startTime = null;
+	
+//	@Element(name="startTime", required=false)
+//	public void setStartTime(GregorianCalendar cal){
+//		Log.v(TAG, "in Itinerary/setStartTime");
+//	}
+//	
+//	@Element(name="startTime", required=false)
+//	public GregorianCalendar getStartTime(){
+//		Log.v(TAG, "in Itinerary/getStartTime");
+//		return startTime;
+//	}
 //    public Date startTime = null;
 //    @Element(required=false)
 //    public void setStartTime(Date entry){

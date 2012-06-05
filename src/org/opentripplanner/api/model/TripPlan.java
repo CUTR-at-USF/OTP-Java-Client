@@ -48,9 +48,9 @@ public class TripPlan {
     public void setDate(String d){
     	SimpleDateFormat parser = 
     			new SimpleDateFormat(DateConstants.ISO_DATETIME_TIME_ZONE_FORMAT);
-    	Log.v(TAG, "setDate TripPlan");
+//    	Log.v(TAG, "setDate TripPlan");
     	try {
-    		Log.v(TAG, d);
+//    		Log.v(TAG, d);
     		formatted_date = parser.parse(d);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -59,7 +59,7 @@ public class TripPlan {
     }
     @Element
     public String getDate(){
-    	Log.v(TAG, "getDate TripPlan");
+//    	Log.v(TAG, "getDate TripPlan");
     	return date;
     }
     /**
@@ -82,6 +82,12 @@ public class TripPlan {
     public List<Itinerary> itinerary = new ArrayList<Itinerary>();
 
     public TripPlan() {}
+    
+    public TripPlan(Place from, Place to, Date date) {
+        this.from = from;
+        this.to = to;
+        this.formatted_date = date;
+    }
     
     
     public void addItinerary(Itinerary itinerary) {

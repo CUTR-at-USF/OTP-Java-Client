@@ -17,6 +17,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.opentripplanner.routing.core.TraverseMode;
@@ -123,6 +124,9 @@ public class Leg {
     @Attribute(required=false)
     public String agencyUrl;
     
+    @Attribute(required=false)
+    public int agencyTimeZoneOffset;
+    
     /**
      * For transit leg, the route's (background) color (if one exists). For non-transit legs, null.
      */
@@ -162,6 +166,9 @@ public class Leg {
     //@XmlAttribute
     @Attribute(required=false)
     public String agencyId = null;
+    
+    @Attribute(required=false)
+    public String tripId = null;
     
     /**
      * The Place where the leg originates.
@@ -220,6 +227,9 @@ public class Leg {
 
     @Attribute(required=false)
     public String alightRule;
+    
+    @Attribute(required=false)
+    public Boolean rentedBike;
 
     /**
      * bogus walk/bike/car legs are those that have 0.0 distance, 
@@ -250,7 +260,7 @@ public class Leg {
     public long duration;
     
     public void addNote(Notes note) {
-    	Log.v(TAG, note.text);
+//    	Log.v(TAG, note.text);
         if (notesList == null) {
             notesList = new ArrayList<Notes>();
         }
