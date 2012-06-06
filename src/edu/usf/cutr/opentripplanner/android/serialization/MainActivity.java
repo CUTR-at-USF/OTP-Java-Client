@@ -21,7 +21,9 @@ import java.net.URLEncoder;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
+import org.opentripplanner.api.model.Itinerary;
 import org.opentripplanner.api.ws.Request;
 import org.opentripplanner.routing.core.OptimizeType;
 import org.opentripplanner.routing.core.TraverseMode;
@@ -31,6 +33,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.widget.Toast;
 
 /**
  * 
@@ -38,7 +41,7 @@ import android.util.Log;
  *
  */
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements TripRequestCompleteListener{
     /** Called when the activity is first created. */
 	private static final String TAG = "OTP";
     @Override
@@ -51,17 +54,19 @@ public class MainActivity extends Activity {
     protected void onStart (){
     	super.onStart();
 //    	String requestUrl = getRequestUrl();
+//    	
+//    	String requestUrl = "http://opentripplanner.usf.edu/opentripplanner-api-webapp/ws/plan?" +
+//				"optimize=QUICK&showIntermediateStops=true&time=07:47am&arriveBy=false" +
+//				"&wheelchair=false&maxWalkDistance=1600.0" +
+//				"&fromPlace=28.033521%2C+-82.520831&toPlace=27.985912%2C+-82.479171" +
+//				"&date=06/05/12" +
+//				"&mode=WALK,TRAM,SUBWAY,RAIL,BUS,FERRY,CABLE_CAR,GONDOLA,FUNICULAR,TRANSIT,TRAINISH,BUSISH";
     	
-    	String requestUrl = "http://opentripplanner.usf.edu/opentripplanner-api-webapp/ws/plan?" +
-				"optimize=QUICK&showIntermediateStops=true&time=07:47am&arriveBy=false" +
-				"&wheelchair=false&maxWalkDistance=1600.0" +
-				"&fromPlace=28.033521%2C+-82.520831&toPlace=27.985912%2C+-82.479171" +
-				"&date=06/05/12" +
-				"&mode=WALK,TRAM,SUBWAY,RAIL,BUS,FERRY,CABLE_CAR,GONDOLA,FUNICULAR,TRANSIT,TRAINISH,BUSISH";
+    	String requestUrl = "http://opentripplanner.usf.edu/opentripplanner-api-webapp/ws/plan?optimize=QUICK&showIntermediateStops=true&time=02:04pm&arriveBy=false&wheelchair=false&maxWalkDistance=1600.0&fromPlace=28.058984%2C+-82.412473&toPlace=28.011376%2C+-82.390251&date=06/06/12&mode=WALK,TRAM,SUBWAY,RAIL,BUS,FERRY,CABLE_CAR,GONDOLA,FUNICULAR,TRANSIT,TRAINISH,BUSISH";
 		
 		Log.v(TAG, requestUrl);
     	
-		new TripRequest(this).execute(requestUrl);
+		new TripRequest(this, this).execute(requestUrl);
     }
     
     private String getRequestUrl(){
@@ -110,5 +115,12 @@ public class MainActivity extends Activity {
 		String requestUrl = baseUrl + params;
 		
 		return requestUrl;
+	}
+
+	@Override
+	public void onTripRequestComplete(String result) {
+		// TODO Auto-generated method stub
+		Toast toast = Toast.makeText(this.getApplicationContext(), result, Toast.LENGTH_LONG);
+		toast.show();
 	}
 }

@@ -115,7 +115,7 @@ public class WalkStep {
 	@Element(required=false)
 	public String elevation;
 
-	@ElementList(required=false)
+	@ElementList(inline = true, required=false)
 	public List<Alerts> alerts;
 
 	public void setDirections(double lastAngle, double thisAngle, boolean roundabout) {

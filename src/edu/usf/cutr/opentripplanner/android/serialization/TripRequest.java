@@ -33,6 +33,7 @@ import org.simpleframework.xml.core.Persister;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import de.mastacode.http.Http;
@@ -46,15 +47,18 @@ public class TripRequest extends AsyncTask<String, Integer, Long> {
 	private Response response;
 	private static final String TAG = "OTP";
 	private ProgressDialog progressDialog;
-	private MainActivity mainActivity;
+//	private MainActivity mainActivity;
+	private Context context;
+	private TripRequestCompleteListener callback;
 
-	public TripRequest(MainActivity mainActivity) {
-		this.mainActivity = mainActivity;
-		progressDialog = new ProgressDialog(mainActivity);
+	public TripRequest(Context context, TripRequestCompleteListener callback) {
+		this.context = context;
+		this.callback = callback; 
+		progressDialog = new ProgressDialog(context);
 	}
 
 	protected void onPreExecute() {
-		progressDialog = ProgressDialog.show(mainActivity, "",
+		progressDialog = ProgressDialog.show(context, "",
 				"Generating trip. Please wait... ", true);
 	}
 
@@ -73,18 +77,19 @@ public class TripRequest extends AsyncTask<String, Integer, Long> {
 		}
 		
 		if (response != null && response.getPlan() != null && response.getPlan().itinerary.get(0) != null) {
-			
+			callback.onTripRequestComplete("XML de-serialization SUCCESSFUL!!");
 			Log.v(TAG, "Success!!");
 		} else {
 			// TODO - handle errors here?
 			if(response != null && response.getError() != null) {
 				String msg = response.getError().getMsg();
-				AlertDialog.Builder feedback = new AlertDialog.Builder(mainActivity);
+				AlertDialog.Builder feedback = new AlertDialog.Builder(context);
 				feedback.setTitle("Error Planning Trip");
 				feedback.setMessage(msg);
 				feedback.setNeutralButton("OK", null);
 				feedback.create().show();
 			}
+			callback.onTripRequestComplete("XML de-serialization ERROR!!");
 			Log.e(TAG, "No route to display!");
 		}
 	}
