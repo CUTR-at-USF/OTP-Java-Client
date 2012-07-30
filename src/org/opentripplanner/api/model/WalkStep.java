@@ -63,7 +63,7 @@ public class WalkStep {
 	/**
 	 *   * The name of the street.
 	 *     */
-	@Element
+	@Element(required=false)
 	public String streetName;
 
 	/**
