@@ -17,26 +17,23 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 
-import org.simpleframework.xml.Element;
-import org.simpleframework.xml.Root;
 
-@Root(strict=false)
 public class Alerts implements Serializable {
     private static final long serialVersionUID = 8305126586053909836L;
 
     public static final String defaultLanguage = "en";
 
-    @Element(required=false)
+    
     public TranslatedString alertHeaderText;
 
-    @Element(required=false)
+    
     public TranslatedString alertDescriptionText;
 
-    @Element(required=false)
+    
     public TranslatedString alertUrl;
 
     //null means unknown
-    @Element(required=false)
+    
     public String effectiveStartDate;
 
     public static HashSet<Alerts> newSimpleAlertSet(String text) {
@@ -88,4 +85,40 @@ public class Alerts implements Serializable {
                 + (alertHeaderText == null ? 0 : alertHeaderText.hashCode())
                 + (alertUrl == null ? 0 : alertUrl.hashCode());
     }
+    
+    public TranslatedString getAlertDescriptionText() {
+		return alertDescriptionText;
+	}
+    
+    public TranslatedString getAlertHeaderText() {
+		return alertHeaderText;
+	}
+    public String getEffectiveStartDate() {
+		return effectiveStartDate;
+	}
+    
+    public TranslatedString getAlertUrl() {
+		return alertUrl;
+	}
+    
+    public void setAlertDescriptionText(TranslatedString alertDescriptionText) {
+		this.alertDescriptionText = alertDescriptionText;
+	}
+    
+    public void setAlertHeaderText(TranslatedString alertHeaderText) {
+		this.alertHeaderText = alertHeaderText;
+	}
+    
+    public void setAlertUrl(TranslatedString alertUrl) {
+		this.alertUrl = alertUrl;
+	}
+    
+    public void setEffectiveStartDate(String effectiveStartDate) {
+		this.effectiveStartDate = effectiveStartDate;
+	}
+    
+    public static String getDefaultlanguage() {
+		return defaultLanguage;
+	}
+    
 }

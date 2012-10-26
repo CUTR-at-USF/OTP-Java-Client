@@ -21,12 +21,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.opentripplanner.routing.core.Fare;
-import org.simpleframework.xml.Element;
-import org.simpleframework.xml.ElementList;
 
 import android.util.Log;
 
-import com.google.gson.annotations.SerializedName;
 
 //import javax.xml.bind.annotation.XmlElement;
 //import javax.xml.bind.annotation.XmlElementWrapper;
@@ -45,30 +42,30 @@ public class Itinerary {
 	}
 
     /**
-     * Duration of the trip on this itinerary, in milliseconds.
+     * Duration of the trip on this itineraries, in milliseconds.
      */
-	@Element
+	
     public long duration = 0;
 
     /**
      * Time that the trip departs.
      */
 	//TODO - fix date parsing
-	@Element(required=false)
+	
 	public String startTime = null;
 	
-//	@Element(name="startTime", required=false)
+//	(name="startTime", required=false)
 //	public void setStartTime(GregorianCalendar cal){
 //		Log.v(TAG, "in Itinerary/setStartTime");
 //	}
 //	
-//	@Element(name="startTime", required=false)
+//	(name="startTime", required=false)
 //	public GregorianCalendar getStartTime(){
 //		Log.v(TAG, "in Itinerary/getStartTime");
 //		return startTime;
 //	}
 //    public Date startTime = null;
-//    @Element(required=false)
+//    
 //    public void setStartTime(Date entry){
 //    	SimpleDateFormat parser = 
 //    			new SimpleDateFormat("yyyy-MM-d'T'HH:mm:ssZ");
@@ -79,17 +76,17 @@ public class Itinerary {
 //			e.printStackTrace();
 //		}  
 //    }
-//    @Element(required=false)
+//    
 //    public Date getStartTime(){
 //    	return startTime;
 //    }
     /**
      * Time that the trip arrives.
      */
-	@Element(required=false)
+	
     public String endTime = null;
 //    public Date endTime = null;
-//    @Element(required=false)
+//    
 //    public void setEndTime(Date entry){
 //    	SimpleDateFormat parser = 
 //    			new SimpleDateFormat("yyyy-MM-d'T'HH:mm:ssZ");
@@ -100,7 +97,7 @@ public class Itinerary {
 //			e.printStackTrace();
 //		}  
 //    }
-//    @Element(required=false)
+//    
 //    public Date getEndTime(){
 //    	return endTime;
 //    }
@@ -108,23 +105,23 @@ public class Itinerary {
     /**
      * How much time is spent walking, in milliseconds.
      */
-	@Element
+	
     public long walkTime = 0;
     /**
      * How much time is spent on transit, in milliseconds.
      */
-	@Element
+	
     public long transitTime = 0;
     /**
      * How much time is spent waiting for transit to arrive, in milliseconds.
      */
-	@Element
+	
     public long waitingTime = 0;
 
     /**
      * How far the user has to walk, in meters.
      */
-	@Element(required=false)
+	
     public Double walkDistance = 0.0;
 
     /**
@@ -132,25 +129,25 @@ public class Itinerary {
      * a trip that went from the top of Mount Everest straight down to sea level, then back up K2,
      * then back down again would have an elevationLost of Everest + K2.
      */
-	@Element(required=false)
+	
     public Double elevationLost = 0.0;
     /**
      * How much elevation is gained, in total, over the course of the trip, in meters. See
      * elevationLost.
      */
-	@Element(required=false)
+	
     public Double elevationGained = 0.0;
 
     /**
      * The number of transfers this trip has.
      */
-	@Element(required=false)
+	
     public Integer transfers = 0;
 
     /**
      * The cost of this trip
      */
-	@Element(required=false)
+	
     public Fare fare = new Fare();
 
     /**
@@ -161,14 +158,14 @@ public class Itinerary {
     //@XmlElementWrapper(name = "legs")
     //@XmlElement(name = "leg")
     //@SerializedName("legs")
-    @ElementList(name="legs",required=false)
+    
     public List<Leg> legs = new ArrayList<Leg>();
 
     /**
-     * This itinerary has a greater slope than the user requested (but there are no possible 
+     * This itineraries has a greater slope than the user requested (but there are no possible 
      * itineraries with a good slope). 
      */
-    @Element
+    
     public boolean tooSloped = false;
 
     /** 

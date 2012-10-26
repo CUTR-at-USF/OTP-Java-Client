@@ -13,12 +13,9 @@
 
 package org.opentripplanner.api.model;
 
-import org.simpleframework.xml.Element;
-import org.simpleframework.xml.Root;
 
-@Root
 public class Notes {
-	@Element(required=false)
+
 	public String text;
 
 	public Notes() {

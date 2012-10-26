@@ -13,36 +13,19 @@
 
 package org.opentripplanner.api.model;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.opentripplanner.routing.core.TraverseMode;
 import org.opentripplanner.routing.patch.Alerts;
-import org.simpleframework.xml.Attribute;
-import org.simpleframework.xml.Element;
-import org.simpleframework.xml.ElementList;
 
-//import org.opentripplanner.routing.core.TraverseMode;
-
-//import javax.xml.bind.annotation.XmlAttribute;
-//import javax.xml.bind.annotation.XmlElement;
-//import javax.xml.bind.annotation.XmlElementWrapper;
-
-//import org.opentripplanner.util.model.EncodedPolylineBean;
-
-import android.util.Log;
-
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * One leg of a trip -- that is, a temporally continuous piece of the journey that takes place on a
  * particular vehicle (or on foot).
  */
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Leg {
 	
 	private static final String TAG = "OTP";
@@ -54,10 +37,10 @@ public class Leg {
      * The date and time this leg begins.
      */
 	//TODO - fix dates
-	@Element(required=false)
+	
     public String startTime = null;
 //	public Date startTime = null;
-//    @Element(required=false)
+//    
 //    public void setStartTime(Date entry){
 //    	SimpleDateFormat parser = 
 //    			new SimpleDateFormat("yyyy-MM-d'T'HH:mm:ssZ");
@@ -68,7 +51,7 @@ public class Leg {
 //			e.printStackTrace();
 //		}  
 //    }
-//    @Element(required=false)
+//    
 //    public Date getStartTime(){
 //    	return startTime;
 //    }
@@ -76,10 +59,10 @@ public class Leg {
     /**
      * The date and time this leg ends.
      */
-	@Element(required=false)
+	
     public String endTime = null;
 //	public Date endTime = null;
-//    @Element(required=false)
+//    
 //    public void setEndTime(Date entry){
 //    	SimpleDateFormat parser = 
 //    			new SimpleDateFormat("yyyy-MM-d'T'HH:mm:ssZ");
@@ -90,7 +73,7 @@ public class Leg {
 //			e.printStackTrace();
 //		}  
 //    }
-//    @Element(required=false)
+//    
 //    public Date getEndTime(){
 //    	return endTime;
 //    }
@@ -98,7 +81,7 @@ public class Leg {
     /**
      * The distance traveled while traversing the leg in meters.
      */
-	@Element(required=false)
+	
     public Double distance = null;
 
     /**
@@ -107,7 +90,7 @@ public class Leg {
     //@XmlAttribute
 	//TODO - fix mode
     //public String mode = TraverseMode.WALK.toString();
-	@Attribute(required=false)
+	
 	public String mode = "";
 	
     /**
@@ -115,48 +98,48 @@ public class Leg {
      * the street being traversed.
      */
     //@XmlAttribute
-    @Attribute(required=false)
+    
     public String route = "";
     
-    @Attribute(required=false)
+    
     public String agencyName;
     
-    @Attribute(required=false)
+    
     public String agencyUrl;
     
-    @Attribute(required=false)
+    
     public int agencyTimeZoneOffset;
     
     /**
      * For transit leg, the route's (background) color (if one exists). For non-transit legs, null.
      */
-    @Attribute(required=false)
+    
     public String routeColor = null;
 
     /**
      * For transit leg, the route's text color (if one exists). For non-transit legs, null.
      */
-    @Attribute(required=false)
+    
     public String routeTextColor = null;
 
     /**
      * For transit legs, if the rider should stay on the vehicle as it changes route names.
      */
-    @Attribute(required=false)
+    
     public Boolean interlineWithPreviousLeg;
 
     /**
      * For transit leg, the trip's short name (if one exists). For non-transit legs, null.
      */
     //@XmlAttribute
-    @Attribute(required=false)
+    
     public String tripShortName = null;
 
     /**
      * For transit legs, the headsign of the bus or train being used. For non-transit legs, null.
      */
     //@XmlAttribute
-    @Attribute(required=false)
+    
     public String headsign = null;
 
     /**
@@ -164,22 +147,22 @@ public class Leg {
      * For non-transit legs, null.
      */
     //@XmlAttribute
-    @Attribute(required=false)
+    
     public String agencyId = null;
     
-    @Attribute(required=false)
+    
     public String tripId = null;
     
     /**
      * The Place where the leg originates.
      */
-    @Element(required=false)
+    
     public Place from = null;
     
     /**
      * The Place where the leg begins.
      */
-    @Element(required=false)
+    
     public Place to = null;
 
     /**
@@ -189,13 +172,13 @@ public class Leg {
      */
     //@XmlElementWrapper(name = "intermediateStops")
     //@SerializedName("intermediateStops")
-    @ElementList(name="intermediateStops",required=false)
+    
     public List<Place> stops;
     
     /**
      * The leg's geometry.
      */
-    @Element(required=false)
+    
     public EncodedPolylineBean legGeometry;
     
     /**
@@ -203,32 +186,32 @@ public class Leg {
      */
     //@XmlElementWrapper(name = "steps")
     //@SerializedName("steps")
-    @ElementList(name="steps",required=false)
+    
     public List<WalkStep> walkSteps;
 
     /**
      * Deprecated field formerly used for notes -- will be removed.  See
      * alerts
      */
-    @ElementList(inline=true, required=false)
-    private ArrayList<Notes> notesList;
 
-    @ElementList(inline=true, required=false)
-    private ArrayList<Alerts> alertsList;
+    private ArrayList<String> notes;
 
-    @Attribute(required=false)
+
+    private ArrayList<Alerts> alerts;
+
+    
 	public String routeShortName;
 
-    @Attribute(required=false)
+    
 	public String routeLongName;
 
-    @Attribute(required=false)
+    
     public String boardRule;
 
-    @Attribute(required=false)
+    
     public String alightRule;
     
-    @Attribute(required=false)
+    
     public Boolean rentedBike;
 
     /**
@@ -252,33 +235,33 @@ public class Leg {
     /** 
      * The leg's duration in milliseconds
      */
-//    @Element(required=false)
+//    
 //    public long getDuration() {
 //        return 0;//endTime.getTime() - startTime.getTime();
 //    }
-    @Element
+    
     public long duration;
     
-    public void addNote(Notes note) {
+    public void addNote(String note) {
 //    	Log.v(TAG, note.text);
-        if (notesList == null) {
-            notesList = new ArrayList<Notes>();
+        if (notes == null) {
+            notes = new ArrayList<String>();
         }
-        if (alertsList == null) {
-            alertsList = new ArrayList<Alerts>();
+        if (alerts == null) {
+            alerts = new ArrayList<Alerts>();
         }
         
-        if (!notesList.contains(note)) {
-            notesList.add(note);
+        if (!notes.contains(note)) {
+            notes.add(note);
         }
     }
 
     public void addAlert(Alerts alert) {
-        if (notesList == null) {
-            notesList = new ArrayList<Notes>();
+        if (notes == null) {
+            notes = new ArrayList<String>();
         }
-        if (alertsList == null) {
-            alertsList = new ArrayList<Alerts>();
+        if (alerts == null) {
+            alerts = new ArrayList<Alerts>();
         }
         String text = alert.alertHeaderText.getSomeTranslation();
         if (text == null) {
@@ -287,12 +270,12 @@ public class Leg {
         if (text == null) {
             text = alert.alertUrl.getSomeTranslation();
         }
-        Notes note = new Notes(text);
-        if (!notesList.contains(note)) {
-            notesList.add(note);
+        
+        if (!notes.contains(text)) {
+            notes.add(text);
         }
-        if (!alertsList.contains(alert)) {
-            alertsList.add(alert);
+        if (!alerts.contains(alert)) {
+            alerts.add(alert);
         }
     }
     

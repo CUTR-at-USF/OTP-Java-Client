@@ -19,22 +19,17 @@ import java.util.TreeMap;
 
 import org.opentripplanner.routing.core.Money;
 import org.opentripplanner.routing.core.Fare.FareType;
-import org.simpleframework.xml.Attribute;
-import org.simpleframework.xml.Element;
-import org.simpleframework.xml.ElementList;
-import org.simpleframework.xml.ElementMap;
-import org.simpleframework.xml.Root;
 
-@Root
+
 public class TranslatedString implements Serializable {
     private static final long serialVersionUID = 2163930399727941628L;
 
 //    @XmlElement
 //    @XmlJavaTypeAdapter(MapAdaptor.class)
     public static class Entry{
-    	@Attribute
+    	
     	public String key = null;
-    	@Attribute
+    	
     	public String value = null;
     	
     	public Entry(String language, String note){
@@ -45,7 +40,7 @@ public class TranslatedString implements Serializable {
     	public Entry(){
     	}
     }
-    @ElementList
+    
     public ArrayList<Entry> translations = new ArrayList<Entry>();
 
     public TranslatedString(String language, String note) {

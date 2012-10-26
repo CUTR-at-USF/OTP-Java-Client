@@ -21,9 +21,6 @@ import org.opentripplanner.routing.core.TraverseMode;
 //import org.opentripplanner.routing.graph.Graph;
 //import org.opentripplanner.routing.graph.Vertex;
 //import org.opentripplanner.routing.services.GraphService;
-import org.simpleframework.xml.Element;
-import org.simpleframework.xml.ElementList;
-import org.simpleframework.xml.Root;
 
 //import com.vividsolutions.jts.geom.Coordinate;
 //import com.vividsolutions.jts.geom.Envelope;
@@ -34,19 +31,19 @@ public class GraphMetadata {
     /**
      * The bounding box of the graph, in decimal degrees.
      */
-	@Element(required=false)
+	
     private double lowerLeftLatitude, lowerLeftLongitude, upperRightLatitude, upperRightLongitude;
 
-	@ElementList(required=false)
+	
     private HashSet<TraverseMode> transitModes = new HashSet<TraverseMode>();
 	
-	@Element(required=false)
+	
 	private double centerLatitude;
 
-	@Element(required=false)
+	
     private double centerLongitude;
     
-    @Root
+    
     public GraphMetadata() {
     }
 
@@ -146,7 +143,7 @@ public class GraphMetadata {
      * names; the new names are the lowerLeft/upperRight.
      *  @deprecated
      */
-    @Element(required=false)
+    
     public void setMinLatitude(double minLatitude) {
         lowerLeftLatitude = minLatitude;
     }
@@ -156,7 +153,7 @@ public class GraphMetadata {
      * names; the new names are the lowerLeft/upperRight.
      *  @deprecated
      */
-    @Element(required=false)
+    
     public double getMinLatitude() {
         return lowerLeftLatitude;
     }
@@ -166,7 +163,7 @@ public class GraphMetadata {
      * names; the new names are the lowerLeft/upperRight.
      *  @deprecated
      */
-    @Element(required=false)
+    
     public void setMinLongitude(double minLongitude) {
         lowerLeftLongitude = minLongitude;
     }
@@ -176,7 +173,7 @@ public class GraphMetadata {
      * names; the new names are the lowerLeft/upperRight.
      *  @deprecated
      */
-    @Element(required=false)
+    
     public double getMinLongitude() {
         return lowerLeftLongitude;
     }
@@ -186,7 +183,7 @@ public class GraphMetadata {
      * names; the new names are the lowerLeft/upperRight.
      *  @deprecated
      */
-    @Element(required=false)
+    
     public void setMaxLatitude(double maxLatitude) {
         upperRightLatitude = maxLatitude;
     }
@@ -196,7 +193,7 @@ public class GraphMetadata {
      * names; the new names are the lowerLeft/upperRight.
      *  @deprecated
      */
-    @Element(required=false)
+    
     public double getMaxLatitude() {
         return upperRightLatitude;
     }
@@ -206,7 +203,7 @@ public class GraphMetadata {
      * names; the new names are the lowerLeft/upperRight.
      *  @deprecated
      */
-    @Element(required=false)
+    
     public void setMaxLongitude(double maxLongitude) {
         upperRightLongitude = maxLongitude;
     }
@@ -216,7 +213,7 @@ public class GraphMetadata {
      * names; the new names are the lowerLeft/upperRight.
      *  @deprecated
      */
-    @Element(required=false)
+    
     public double getMaxLongitude() {
         return upperRightLongitude;
     }

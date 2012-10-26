@@ -17,6 +17,8 @@
 package edu.usf.cutr.opentripplanner.android.serialization;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -28,32 +30,33 @@ import org.opentripplanner.api.model.Itinerary;
 import org.opentripplanner.api.model.Leg;
 import org.opentripplanner.api.ws.Request;
 import org.opentripplanner.api.ws.Response;
-import org.simpleframework.xml.Serializer;
-import org.simpleframework.xml.core.Persister;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.util.Log;
 import de.mastacode.http.Http;
 
 /**
  * Modified by Khoa Tran
- *
+ * 
  */
 
 public class TripRequest extends AsyncTask<String, Integer, Long> {
 	private Response response;
 	private static final String TAG = "OTP";
 	private ProgressDialog progressDialog;
-//	private MainActivity mainActivity;
+	// private MainActivity mainActivity;
 	private Context context;
 	private TripRequestCompleteListener callback;
 
 	public TripRequest(Context context, TripRequestCompleteListener callback) {
 		this.context = context;
-		this.callback = callback; 
+		this.callback = callback;
 		progressDialog = new ProgressDialog(context);
 	}
 
@@ -75,54 +78,93 @@ public class TripRequest extends AsyncTask<String, Integer, Long> {
 		if (progressDialog.isShowing()) {
 			progressDialog.dismiss();
 		}
-		
-		if (response != null && response.getPlan() != null && response.getPlan().itinerary.get(0) != null) {
-			callback.onTripRequestComplete("XML de-serialization SUCCESSFUL!!");
+
+		if (response != null && response.getPlan() != null
+				&& response.getPlan().itineraries.get(0) != null) {
+			callback.onTripRequestComplete("De-serialization SUCCESSFUL!!");
 			Log.v(TAG, "Success!!");
 		} else {
 			// TODO - handle errors here?
-			if(response != null && response.getError() != null) {
-				String msg = response.getError().getMsg();
+			if (response != null && response.getError() != null) {
+				String msg = String.valueOf(response.getError().getId());
 				AlertDialog.Builder feedback = new AlertDialog.Builder(context);
 				feedback.setTitle("Error Planning Trip");
 				feedback.setMessage(msg);
 				feedback.setNeutralButton("OK", null);
 				feedback.create().show();
 			}
-			callback.onTripRequestComplete("XML de-serialization ERROR!!");
+			callback.onTripRequestComplete("De-serialization ERROR!!");
 			Log.e(TAG, "No route to display!");
 		}
 	}
-	
-	private Response requestPlan(String requestUrl) {			
-		HttpClient client = new DefaultHttpClient();
-		String result = "";
-		try {
-			result = Http.get(requestUrl).use(client).header("Accept", "application/xml").header("Keep-Alive","timeout=60, max=100").charset("UTF-8").followRedirects(true).asString();
-			Log.d(TAG, "Result: " + result);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			Log.e(TAG, "Error Http Request: "+e.getMessage());
-			e.printStackTrace();
-			return null;
-		}
-		
-		Serializer serializer = new Persister();
 
+	/**
+	 * Makes the actual request to the server and returns the Plan response, or null if there was an error
+	 * @param requestUrl full URL for the OTP server request
+	 * @return returns the Plan response, or null if there was an error
+	 */
+	private Response requestPlan(String requestUrl) {
+
+		// HttpClient client = new DefaultHttpClient();
+		//String result = "";
+		// try {
+		// result = Http.get(requestUrl).use(client).header("Accept",
+		// "application/json").header("Keep-Alive","timeout=60, max=100").charset("UTF-8").followRedirects(true).asString();
+		//
+		// Log.d(TAG, "Result: " + result);
+		// } catch (IOException e) {
+		// // TODO Auto-generated catch block
+		// Log.e(TAG, "Error Http Request: "+e.getMessage());
+		// e.printStackTrace();
+		// return null;
+		// }
+
+		HttpURLConnection urlConnection = null;
+		URL url = null;
 		Response plan = null;
+
 		try {
-			plan = serializer.read(Response.class, result);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			Log.e(TAG, e.getMessage());
+
+			url = new URL(requestUrl);
+
+			disableConnectionReuseIfNecessary(); // For bugs in
+			// HttpURLConnection
+			// pre-Froyo
+
+			// Serializer serializer = new Persister();
+			ObjectMapper mapper = new ObjectMapper();
+
+			urlConnection = (HttpURLConnection) url.openConnection();
+			urlConnection.setRequestProperty("Accept", "application/json");
+
+			// plan = serializer.read(Response.class, result);
+			plan = mapper.readValue(urlConnection.getInputStream(),
+					Response.class);
+			
+		} catch (IOException e) {
+			Log.e(TAG, "Error fetching JSON or XML: " + e);
 			e.printStackTrace();
-			return null;
+			// Reset timestamps to show there was an error
+			// requestStartTime = 0;
+			// requestEndTime = 0;
+		} finally {
+			if (urlConnection != null) {
+				urlConnection.disconnect();
+			}
 		}
-		//TODO - handle errors and error responses
-		if(plan == null) {
-			Log.d(TAG, "No response?");
-			return null;
-		}
+
+		// TODO - handle error messages and error responses from OTP server
+
 		return plan;
+	}
+
+	/**
+	 * Disable HTTP connection reuse which was buggy pre-froyo
+	 */
+	private void disableConnectionReuseIfNecessary() {
+		//if (Build.VERSION.SDK_INT < Build.VERSION_CODES.FROYO) {  //Should change to this once we update to Android 4.1 SDK
+		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.ECLAIR_MR1) {
+			System.setProperty("http.keepAlive", "false");
+		}
 	}
 }

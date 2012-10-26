@@ -22,37 +22,45 @@ import java.util.List;
 
 import org.opentripplanner.api.model.TripPlan;
 import org.opentripplanner.api.model.error.PlannerError;
-import org.simpleframework.xml.Element;
-import org.simpleframework.xml.ElementList;
-import org.simpleframework.xml.Root;
 //import org.opentripplanner.api.model.error.PlannerError;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 
 /**
  *
  */
 //@XmlRootElement
-@Root
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Response {
 
-    @ElementList(required=false)
-    private List<Entry> requestParameters;
+    
+    //private List<Entry> requestParameters;
 
-	@Element(required=false)
+	
     private TripPlan plan;
 
-	@Element(required=false)
+	
     private PlannerError error = null;
 
 	public static class Entry {
-		@Element(required=false)
+		
 	    private String key;
-		@Element(required=false)
+		
 	    private String value;
+	    
+	    public String getKey() {
+			return key;
+		}
+	    
+	    public void setKey(String key) {
+			this.key = key;
+		}
 	}
 	
-    public Response() {
-    	requestParameters = new ArrayList<Entry>();
-    }
+//    public Response() {
+//    	requestParameters = new ArrayList<Entry>();
+//    }
 
 //    public Response(Request req) {
 //        this.requestParameters = req.getParameters();
@@ -97,5 +105,6 @@ public class Response {
 
     public void setError(PlannerError error) {
         this.error = error;
-    }
+    }    
+
 }

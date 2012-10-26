@@ -17,9 +17,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
-import org.simpleframework.xml.Element;
-import org.simpleframework.xml.ElementList;
-
 import android.util.Log;
 
 /**
@@ -37,9 +34,9 @@ public class Fare {
     }
     
     public static class Entry{
-    	@Element
+    	
     	public FareType key = null;
-    	@Element
+    	
     	public Money value = null;
     	
     	public Entry(){
@@ -54,7 +51,7 @@ public class Fare {
     /**
      * A mapping from {@link FareType} to {@link Money}.
      */
-    @ElementList(required=false)
+    
 //    public HashMap<FareType, Money> fare;
     public ArrayList<Entry> fare;
     

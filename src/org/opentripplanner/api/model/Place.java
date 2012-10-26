@@ -19,8 +19,6 @@ import java.util.Date;
 import java.util.logging.Logger; 
 
 import org.opentripplanner.util.Constants;
-import org.simpleframework.xml.Attribute;
-import org.simpleframework.xml.Element;
 
 import android.util.Log;
 
@@ -38,39 +36,39 @@ public class Place {
     /** 
      * For transit stops, the name of the stop.  For points of interest, the name of the POI.
      */
-    @Element(required=false)
+    
     public String name = null;
 
     /** 
      * The ID of the stop.  Depending on the transit agency, this may or may not be something that
      * users care about.
      */
-    @Element(required=false)
+    
     public AgencyAndId stopId = null;
     
     /** 
      * The "code" of the stop. Depending on the transit agency, this is often
      * something that users care about.
      */
-    @Element(required=false)
+    
     public String stopCode = null;
 
     /**
      * The longitude of the place.
      */
-    @Element(required=false)
+    
     public Double lon = null;
     
     /**
      * The latitude of the place.
      */
-    @Element(required=false)
+    
     public Double lat = null;
     
     /**
      * The time the rider will arrive at the place.
      */
-    @Element(required=false)
+    
     public String arrival = null;
 //    public Date arrival = null;
 //    @Element(required=false)
@@ -92,7 +90,7 @@ public class Place {
     /**
      * The time the rider will depart the place.
      */
-    @Element(required=false)
+    
     public String departure = null;
 //    public Date departure = null;
 //    @Element(required=false)
@@ -112,11 +110,11 @@ public class Place {
 //    }
 
 //    @XmlAttribute
-    @Attribute(required=false)
+    
     public String orig;
 
 //    @XmlAttribute
-    @Attribute(required=false)
+    
     public String zoneId;
 
 
@@ -131,7 +129,7 @@ public class Place {
     }
     
     //TODO remove or fix!
-    @Element(required=false)
+    
     public String geometry = "";
 
     public Place() {

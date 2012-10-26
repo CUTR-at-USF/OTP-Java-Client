@@ -17,16 +17,16 @@ package org.opentripplanner.api.model;
 
 import java.io.Serializable;
 
-import org.simpleframework.xml.Element;
+
 
 public class AgencyAndId implements Serializable, Comparable<AgencyAndId> {
 
   private static final long serialVersionUID = 1L;
 
-  @Element(required=false)
+
   private String agencyId;
 
-  @Element(required=false)
+
   private String id;
 
   public AgencyAndId() {

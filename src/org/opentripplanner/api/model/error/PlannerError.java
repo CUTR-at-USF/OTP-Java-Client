@@ -18,25 +18,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.opentripplanner.api.ws.Message;
-import org.simpleframework.xml.Element;
-import org.simpleframework.xml.ElementList;
 
-/**
+/*
  * This represents an error in trip planning.
  *
  */
 public class PlannerError {
 	
-	@Element(required=false)
+	
     private int    id;
 
-	@Element(required=false)
-    private String msg;
+	
+    private Message msg;
 
-	@ElementList(required=false)
+	
     private List<String> missing = new ArrayList<String>();
 
-	@Element(required=false)
+	
     private boolean noPath = false;
 
     /** An error where no path has been found, but no points are missing */
@@ -56,22 +54,23 @@ public class PlannerError {
         this.setMissing(missing);
     }
 
-    public PlannerError(int id, String msg) {
-        this.id  = id;
-        this.msg = msg;
-    }
+//    public PlannerError(int id, String msg) {
+//        this.id  = id;
+//        this.msg = msg;
+//    }
 
-    public String getMsg() {
+    public Message getMsg() {
         return msg;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
+//    public void setMsg(String msg) {
+//        this.msg = msg;
+//    }
 
     public void setMsg(Message msg) {
-        this.msg = msg.get();
-        this.id  = msg.getId();
+//        this.msg = msg.get();
+//        this.id  = msg.getId();
+    	this.msg = msg;
     }
 
     public int getId() {
