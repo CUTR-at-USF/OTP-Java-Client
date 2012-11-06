@@ -188,7 +188,7 @@ public class Leg {
     //@XmlElementWrapper(name = "steps")
     //@SerializedName("steps")
     
-    public List<WalkStep> steps;
+    @Getter @Setter private List<WalkStep> steps;
 
     /**
      * Deprecated field formerly used for notes -- will be removed.  See
@@ -287,13 +287,13 @@ public class Leg {
      * bogus walk legs are those that have 0.0 distance, and just one instruction 
      * @return boolean true if the leg is bogus 
      */
-//    public boolean isBogusWalkLeg() {
-//        boolean retVal = false;
-////        if( TraverseMode.WALK.toString().equals(this.mode)         &&
-////            (this.walkSteps == null || this.walkSteps.size() <= 1) && 
-////            this.distance == 0) {
-////            retVal = true;
-////        }
-//        return retVal;
-//    }
+    public boolean isBogusWalkLeg() {
+        boolean retVal = false;
+//        if( TraverseMode.WALK.toString().equals(this.mode)         &&
+//            (this.walkSteps == null || this.walkSteps.size() <= 1) && 
+//            this.distance == 0) {
+//            retVal = true;
+//        }
+        return retVal;
+    }
 }
