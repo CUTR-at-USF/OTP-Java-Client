@@ -16,16 +16,17 @@ package org.opentripplanner.api.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import org.opentripplanner.routing.core.TraverseMode;
 import org.opentripplanner.routing.patch.Alerts;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * One leg of a trip -- that is, a temporally continuous piece of the journey that takes place on a
  * particular vehicle (or on foot).
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
+//@JsonIgnoreProperties(ignoreUnknown = true)
 public class Leg {
 	
 	private static final String TAG = "OTP";
@@ -173,7 +174,7 @@ public class Leg {
     //@XmlElementWrapper(name = "intermediateStops")
     //@SerializedName("intermediateStops")
     
-    public List<Place> stops;
+    @Getter @Setter public List<Place> intermediateStops;
     
     /**
      * The leg's geometry.
@@ -187,17 +188,17 @@ public class Leg {
     //@XmlElementWrapper(name = "steps")
     //@SerializedName("steps")
     
-    public List<WalkStep> walkSteps;
+    public List<WalkStep> steps;
 
     /**
      * Deprecated field formerly used for notes -- will be removed.  See
      * alerts
      */
 
-    private ArrayList<String> notes;
+    @Getter @Setter private ArrayList<Note> notes;
 
-
-    private ArrayList<Alerts> alerts;
+    
+    @Getter @Setter private ArrayList<Alerts> alerts;
 
     
 	public String routeShortName;
@@ -213,24 +214,26 @@ public class Leg {
     
     
     public Boolean rentedBike;
+    
+    @Getter @Setter public Boolean bogusNonTransitLeg;
 
-    /**
-     * bogus walk/bike/car legs are those that have 0.0 distance, 
-     * and just one instruction
-     * 
-     * @return boolean true if the leg is bogus 
-     */
-    public boolean isBogusNonTransitLeg() {
-        boolean retVal = false;
-        if( (TraverseMode.WALK.toString().equals(this.mode) ||
-             TraverseMode.CAR.toString().equals(this.mode) ||
-             TraverseMode.BICYCLE.toString().equals(this.mode)) &&
-            (this.walkSteps == null || this.walkSteps.size() <= 1) && 
-            this.distance == 0) {
-            retVal = true;
-        }
-        return retVal;
-    }
+//    /**
+//     * bogus walk/bike/car legs are those that have 0.0 distance, 
+//     * and just one instruction
+//     * 
+//     * @return boolean true if the leg is bogus 
+//     */
+//    public boolean isBogusNonTransitLeg() {
+//        boolean retVal = false;
+//        if( (TraverseMode.WALK.toString().equals(this.mode) ||
+//             TraverseMode.CAR.toString().equals(this.mode) ||
+//             TraverseMode.BICYCLE.toString().equals(this.mode)) &&
+//            (this.walkSteps == null || this.walkSteps.size() <= 1) && 
+//            this.distance == 0) {
+//            retVal = true;
+//        }
+//        return retVal;
+//    }
     
     /** 
      * The leg's duration in milliseconds
@@ -242,10 +245,10 @@ public class Leg {
     
     public long duration;
     
-    public void addNote(String note) {
+    public void addNote(Note note) {
 //    	Log.v(TAG, note.text);
-        if (notes == null) {
-            notes = new ArrayList<String>();
+        if (note == null) {
+            notes = new ArrayList<Note>();
         }
         if (alerts == null) {
             alerts = new ArrayList<Alerts>();
@@ -258,21 +261,21 @@ public class Leg {
 
     public void addAlert(Alerts alert) {
         if (notes == null) {
-            notes = new ArrayList<String>();
+            notes = new ArrayList<Note>();
         }
         if (alerts == null) {
             alerts = new ArrayList<Alerts>();
         }
-        String text = alert.alertHeaderText.getSomeTranslation();
+        String text = alert.getAlertHeaderText().getSomeTranslation();
         if (text == null) {
-            text = alert.alertDescriptionText.getSomeTranslation();
+            text = alert.getAlertHeaderText().getSomeTranslation();
         }
         if (text == null) {
             text = alert.alertUrl.getSomeTranslation();
         }
         
         if (!notes.contains(text)) {
-            notes.add(text);
+            notes.add(new Note(text));
         }
         if (!alerts.contains(alert)) {
             alerts.add(alert);
@@ -284,13 +287,13 @@ public class Leg {
      * bogus walk legs are those that have 0.0 distance, and just one instruction 
      * @return boolean true if the leg is bogus 
      */
-    public boolean isBogusWalkLeg() {
-        boolean retVal = false;
-//        if( TraverseMode.WALK.toString().equals(this.mode)         &&
-//            (this.walkSteps == null || this.walkSteps.size() <= 1) && 
-//            this.distance == 0) {
-//            retVal = true;
-//        }
-        return retVal;
-    }
+//    public boolean isBogusWalkLeg() {
+//        boolean retVal = false;
+////        if( TraverseMode.WALK.toString().equals(this.mode)         &&
+////            (this.walkSteps == null || this.walkSteps.size() <= 1) && 
+////            this.distance == 0) {
+////            retVal = true;
+////        }
+//        return retVal;
+//    }
 }

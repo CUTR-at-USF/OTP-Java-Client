@@ -14,6 +14,7 @@
 package org.opentripplanner.api.model; 
 
 import java.text.ParseException;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Logger; 
@@ -21,6 +22,8 @@ import java.util.logging.Logger;
 import org.opentripplanner.util.Constants;
 
 import android.util.Log;
+import lombok.Getter;
+import lombok.Setter;
 
 //import org.onebusaway.gtfs.model.AgencyAndId;
 //import org.opentripplanner.util.Constants; 
@@ -37,39 +40,39 @@ public class Place {
      * For transit stops, the name of the stop.  For points of interest, the name of the POI.
      */
     
-    public String name = null;
+    @Getter @Setter public String name = null;
 
     /** 
      * The ID of the stop.  Depending on the transit agency, this may or may not be something that
      * users care about.
      */
     
-    public AgencyAndId stopId = null;
+    @Getter @Setter public AgencyAndId stopId = null;
     
     /** 
      * The "code" of the stop. Depending on the transit agency, this is often
      * something that users care about.
      */
     
-    public String stopCode = null;
+    @Getter @Setter public String stopCode = null;
 
     /**
      * The longitude of the place.
      */
     
-    public Double lon = null;
+    @Getter @Setter public Double lon = null;
     
     /**
      * The latitude of the place.
      */
     
-    public Double lat = null;
+    @Getter @Setter public Double lat = null;
     
     /**
      * The time the rider will arrive at the place.
      */
     
-    public String arrival = null;
+    @Getter @Setter public String arrival = null;
 //    public Date arrival = null;
 //    @Element(required=false)
 //    public void setArrival(Date entry){
@@ -91,7 +94,7 @@ public class Place {
      * The time the rider will depart the place.
      */
     
-    public String departure = null;
+    @Getter @Setter public String departure = null;
 //    public Date departure = null;
 //    @Element(required=false)
 //    public void setDeparture(Date d){

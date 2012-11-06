@@ -55,14 +55,19 @@ public class MainActivity extends Activity implements TripRequestCompleteListene
     	super.onStart();
 //    	String requestUrl = getRequestUrl();
 //    	
-    	String requestUrl = "http://opentripplanner.usf.edu/opentripplanner-api-webapp/ws/plan?" +
-				"optimize=QUICK&showIntermediateStops=true&time=07:47am&arriveBy=false" +
-				"&wheelchair=false&maxWalkDistance=1600.0" +
-				"&fromPlace=28.033521%2C+-82.520831&toPlace=27.985912%2C+-82.479171" +
-				"&date=06/05/12" +
-				"&mode=WALK,TRAM,SUBWAY,RAIL,BUS,FERRY,CABLE_CAR,GONDOLA,FUNICULAR,TRANSIT,TRAINISH,BUSISH";
+    	//Walk only
+//    	String requestUrl = "http://opentripplanner.usf.edu/opentripplanner-api-webapp/ws/plan?" +
+//				"optimize=QUICK&showIntermediateStops=true&time=07:47am&arriveBy=false" +
+//				"&wheelchair=false&maxWalkDistance=1600.0" +
+//				"&fromPlace=28.033521%2C+-82.520831&toPlace=27.985912%2C+-82.479171" +
+//				"&date=06/05/12" +
+//				"&mode=WALK,TRAM,SUBWAY,RAIL,BUS,FERRY,CABLE_CAR,GONDOLA,FUNICULAR,TRANSIT,TRAINISH,BUSISH";
     	
+    	//Different server
     	//String requestUrl = "http://mapserv.askmorgan.net:8080/opentripplanner-api-webapp/ws/plan?fromPlace=15.600110,32.523766&toPlace=15.570678,32.542649&mode=WALK&min=QUICK&maxWalkDistance=840&time=5:58%20pm&date=7/14/2012&arriveBy=false&itinID=1&wheelchair=false";//getRequestUrl();//"http://opentripplanner.usf.edu/opentripplanner-api-webapp/ws/plan?optimize=QUICK&showIntermediateStops=true&time=02:04pm&arriveBy=false&wheelchair=false&maxWalkDistance=1600.0&fromPlace=28.058984%2C+-82.412473&toPlace=28.011376%2C+-82.390251&date=06/06/12&mode=WALK,TRAM,SUBWAY,RAIL,BUS,FERRY,CABLE_CAR,GONDOLA,FUNICULAR,TRANSIT,TRAINISH,BUSISH";
+    	
+    	//Walk and Transit
+    	String requestUrl = "http://opentripplanner.usf.edu/opentripplanner-api-webapp/ws/plan?optimize=QUICK&showIntermediateStops=true&fromPlace=28.065041,-82.412778&toPlace=28.022204,-82.431101&mode=TRANSIT,WALK&min=QUICK&maxWalkDistance=840&time=5:32%20pm&date=10/26/2012&arr=Depart&itinID=1&wheelchair=false"; 
 		
 		Log.v(TAG, requestUrl);
     	

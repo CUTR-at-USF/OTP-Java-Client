@@ -31,6 +31,7 @@ import org.opentripplanner.api.model.Leg;
 import org.opentripplanner.api.ws.Request;
 import org.opentripplanner.api.ws.Response;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import android.app.AlertDialog;
@@ -133,10 +134,15 @@ public class TripRequest extends AsyncTask<String, Integer, Long> {
 
 			// Serializer serializer = new Persister();
 			ObjectMapper mapper = new ObjectMapper();
+           
+		    mapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
+		    mapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
+		    mapper.configure(DeserializationFeature.USE_JAVA_ARRAY_FOR_JSON_ARRAY, true);
+		    mapper.configure(DeserializationFeature.READ_ENUMS_USING_TO_STRING, true);
 
 			urlConnection = (HttpURLConnection) url.openConnection();
 			urlConnection.setRequestProperty("Accept", "application/json");
-
+	
 			// plan = serializer.read(Response.class, result);
 			plan = mapper.readValue(urlConnection.getInputStream(),
 					Response.class);

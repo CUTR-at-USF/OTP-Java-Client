@@ -18,6 +18,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import org.opentripplanner.routing.patch.Alerts;
 
 /**
@@ -51,35 +54,35 @@ public class WalkStep {
 	 * The distance in meters that this step takes.
 	 */
 	
-	public double distance = 0;
+	@Getter @Setter public double distance = 0;
 
 	/**
 	 *   * The relative direction of this step.
 	 *     */
 	
-	public RelativeDirection relativeDirection;
+	@Getter @Setter public RelativeDirection relativeDirection;
 	/**
 	 *   * The name of the street.
 	 *     */
 	
-	public String streetName;
+	@Getter @Setter public String streetName;
 
 	/**
 	 * The absolute direction of this step. 
 	 */
 	
-	public AbsoluteDirection absoluteDirection;
+	@Getter @Setter public AbsoluteDirection absoluteDirection;
 
 	/**  
 	 * When exiting a highway or traffic circle, the exit name/number.
 	 */
 	
-	public String exit;
+	@Getter @Setter public String exit;
 	/**
 	 * Indicates whether or not a street changes direction at an intersection.
 	 */
 	
-	public Boolean stayOn = false;
+	@Getter @Setter public Boolean stayOn = false;
 
 	/**
 	 * A case where there is both a change of direction and a change
@@ -93,81 +96,81 @@ public class WalkStep {
 	 * generally just display right/left directions
 	 */
 	
-	public Boolean bogusName = false;
+	@Getter @Setter public Boolean bogusName = false;
 
 	/**
 	 * The longitude of start of the step
 	 */
 	
-	public double lon;
+	@Getter @Setter public double lon;
 	/**
 	 * The latitude of start of the step
 	 */
 	
-	public double lat;
+	@Getter @Setter public double lat;
 
 	/**
 	 * The elevation profile as a comma-separated list of x,y values. 
 	 * x is the distance from the start of the step, y is the elevation at this distance.
 	 */
 	
-	public String elevation;
+	@Getter @Setter public String elevation;
 
 	
-	public List<Alerts> alerts;
+	@Getter @Setter public List<Alerts> alerts;
 
-	public void setDirections(double lastAngle, double thisAngle, boolean roundabout) {
-		relativeDirection = getRelativeDirection(lastAngle, thisAngle, roundabout);
-		setAbsoluteDirection(thisAngle);
-	}
+//	public void setDirections(double lastAngle, double thisAngle, boolean roundabout) {
+//		relativeDirection = getRelativeDirection(lastAngle, thisAngle, roundabout);
+//		setAbsoluteDirection(thisAngle);
+//	}
+//
+//	public String toString() {
+//		String direction = absoluteDirection.toString();
+//		if (relativeDirection != null) {
+//			direction = relativeDirection.toString();
+//		}
+//		return "WalkStep(" + direction + " on " + streetName + " for " + distance + ")";
+//	}
 
-	public String toString() {
-		String direction = absoluteDirection.toString();
-		if (relativeDirection != null) {
-			direction = relativeDirection.toString();
-		}
-		return "WalkStep(" + direction + " on " + streetName + " for " + distance + ")";
-	}
+//	public static RelativeDirection getRelativeDirection(double lastAngle, double thisAngle, boolean roundabout) {
+//
+//		double angleDiff = thisAngle - lastAngle;
+//		if (angleDiff < 0) {
+//			angleDiff += Math.PI * 2;
+//		}
+//		double ccwAngleDiff = Math.PI * 2 - angleDiff;
+//
+//		if (roundabout) {
+//			// roundabout: the direction we turn onto it implies the circling direction
+//			if (angleDiff > ccwAngleDiff) {
+//				return RelativeDirection.CIRCLE_CLOCKWISE; 
+//			} else {
+//				return RelativeDirection.CIRCLE_COUNTERCLOCKWISE;
+//			}            
+//		}
+//
+//		// less than 0.3 rad counts as straight, to simplify walking instructions
+//		if (angleDiff < 0.3 || ccwAngleDiff < 0.3) {
+//			return RelativeDirection.CONTINUE;
+//		} else if (angleDiff < 0.7) {
+//			return RelativeDirection.SLIGHTLY_RIGHT;
+//		} else if (ccwAngleDiff < 0.7) {
+//			return RelativeDirection.SLIGHTLY_LEFT;
+//		} else if (angleDiff < 2) {
+//			return RelativeDirection.RIGHT;
+//		} else if (ccwAngleDiff < 2) {
+//			return RelativeDirection.LEFT;
+//		} else if (angleDiff < Math.PI) {
+//			return RelativeDirection.HARD_RIGHT;
+//		} else {
+//			return RelativeDirection.HARD_LEFT;
+//		}
+//	}
 
-	public static RelativeDirection getRelativeDirection(double lastAngle, double thisAngle, boolean roundabout) {
-
-		double angleDiff = thisAngle - lastAngle;
-		if (angleDiff < 0) {
-			angleDiff += Math.PI * 2;
-		}
-		double ccwAngleDiff = Math.PI * 2 - angleDiff;
-
-		if (roundabout) {
-			// roundabout: the direction we turn onto it implies the circling direction
-			if (angleDiff > ccwAngleDiff) {
-				return RelativeDirection.CIRCLE_CLOCKWISE; 
-			} else {
-				return RelativeDirection.CIRCLE_COUNTERCLOCKWISE;
-			}            
-		}
-
-		// less than 0.3 rad counts as straight, to simplify walking instructions
-		if (angleDiff < 0.3 || ccwAngleDiff < 0.3) {
-			return RelativeDirection.CONTINUE;
-		} else if (angleDiff < 0.7) {
-			return RelativeDirection.SLIGHTLY_RIGHT;
-		} else if (ccwAngleDiff < 0.7) {
-			return RelativeDirection.SLIGHTLY_LEFT;
-		} else if (angleDiff < 2) {
-			return RelativeDirection.RIGHT;
-		} else if (ccwAngleDiff < 2) {
-			return RelativeDirection.LEFT;
-		} else if (angleDiff < Math.PI) {
-			return RelativeDirection.HARD_RIGHT;
-		} else {
-			return RelativeDirection.HARD_LEFT;
-		}
-	}
-
-	public void setAbsoluteDirection(double thisAngle) {
-		int octant = (int) (8 + Math.round(thisAngle * 8 / (Math.PI * 2))) % 8;
-		absoluteDirection = AbsoluteDirection.values()[octant];
-	}
+//	public void setAbsoluteDirection(double thisAngle) {
+//		int octant = (int) (8 + Math.round(thisAngle * 8 / (Math.PI * 2))) % 8;
+//		absoluteDirection = AbsoluteDirection.values()[octant];
+//	}
 
 	public void addAlerts(Collection<Alerts> newAlerts) {
 		if (newAlerts == null) {

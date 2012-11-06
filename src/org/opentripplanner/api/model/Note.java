@@ -13,24 +13,31 @@
 
 package org.opentripplanner.api.model;
 
+import lombok.Getter;
+import lombok.Setter;
 
-public class Notes {
 
-	public String text;
+public class Note {
 
-	public Notes() {
+	@Getter @Setter public String text;
+
+	public Note() {
 		/* Required by JAXB but unused */
 	}
 	
-	public Notes(String note) {
+	public Note(String note) {
 		text = note;
 	}
 	
 	public boolean equals(Object o) {
-		return (o instanceof Notes) && ((Notes) o).text.equals(text);
+		return (o instanceof Note) && ((Note) o).text.equals(text);
 	}
 	
 	public int hashCode() {
 		return text.hashCode();
+	}
+	
+	public String toString(){
+		return text;
 	}
 }

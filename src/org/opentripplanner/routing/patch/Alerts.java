@@ -17,6 +17,9 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 
+import lombok.Getter;
+import lombok.Setter;
+
 
 public class Alerts implements Serializable {
     private static final long serialVersionUID = 8305126586053909836L;
@@ -24,101 +27,67 @@ public class Alerts implements Serializable {
     public static final String defaultLanguage = "en";
 
     
-    public TranslatedString alertHeaderText;
+    @Getter @Setter private AlertHeaderText alertHeaderText;
 
     
-    public TranslatedString alertDescriptionText;
+    @Getter @Setter public AlertHeaderText alertDescriptionText;
 
     
-    public TranslatedString alertUrl;
+    @Getter @Setter public AlertHeaderText alertUrl;
 
     //null means unknown
     
-    public String effectiveStartDate;
+    @Getter @Setter public String effectiveStartDate;
 
-    public static HashSet<Alerts> newSimpleAlertSet(String text) {
-        Alerts note = createSimpleAlerts(text);
-        HashSet<Alerts> notes = new HashSet<Alerts>(1);
-        notes.add(note);
-        return notes;
-    }
+//    public static HashSet<Alerts> newSimpleAlertSet(String text) {
+//        Alerts note = createSimpleAlerts(text);
+//        HashSet<Alerts> notes = new HashSet<Alerts>(1);
+//        notes.add(note);
+//        return notes;
+//    }
 
-    public static Alerts createSimpleAlerts(String text) {
-        Alerts note = new Alerts();
-        note.alertHeaderText = new TranslatedString();
-        note.alertHeaderText.addTranslation(defaultLanguage, text);
-        return note;
-    }
+//    public static Alerts createSimpleAlerts(String text) {
+//        Alerts note = new Alerts();
+//        note.alertHeaderText = new TranslatedString();
+//        note.alertHeaderText.addTranslation(defaultLanguage, text);
+//        return note;
+//    }
 
-    public boolean equals(Object o) {
-        if (!(o instanceof Alerts)) {
-            return false;
-        }
-        Alerts ao = (Alerts) o;
-        if (alertDescriptionText == null) {
-            if (ao.alertDescriptionText != null) {
-                return false;
-            }
-        } else {
-            if (!alertDescriptionText.equals(ao.alertDescriptionText)) {
-                return false;
-            }
-        }
-        if (alertHeaderText == null) {
-            if (ao.alertHeaderText != null) {
-                return false;
-            }
-        } else {
-            if (!alertHeaderText.equals(ao.alertHeaderText)) {
-                return false;
-            }
-        }
-        if (alertUrl == null) {
-            return ao.alertUrl == null;
-        } else {
-            return alertUrl.equals(ao.alertUrl);
-        }
-    }
-
-    public int hashCode() {
-        return (alertDescriptionText == null ? 0 : alertDescriptionText.hashCode())
-                + (alertHeaderText == null ? 0 : alertHeaderText.hashCode())
-                + (alertUrl == null ? 0 : alertUrl.hashCode());
-    }
+//    public boolean equals(Object o) {
+//        if (!(o instanceof Alerts)) {
+//            return false;
+//        }
+//        Alerts ao = (Alerts) o;
+//        if (alertDescriptionText == null) {
+//            if (ao.alertDescriptionText != null) {
+//                return false;
+//            }
+//        } else {
+//            if (!alertDescriptionText.equals(ao.alertDescriptionText)) {
+//                return false;
+//            }
+//        }
+//        if (alertHeaderText == null) {
+//            if (ao.alertHeaderText != null) {
+//                return false;
+//            }
+//        } else {
+//            if (!alertHeaderText.equals(ao.alertHeaderText)) {
+//                return false;
+//            }
+//        }
+//        if (alertUrl == null) {
+//            return ao.alertUrl == null;
+//        } else {
+//            return alertUrl.equals(ao.alertUrl);
+//        }
+//    }
+//
+//    public int hashCode() {
+//        return (alertDescriptionText == null ? 0 : alertDescriptionText.hashCode())
+//                + (alertHeaderText == null ? 0 : alertHeaderText.hashCode())
+//                + (alertUrl == null ? 0 : alertUrl.hashCode());
+//    }
     
-    public TranslatedString getAlertDescriptionText() {
-		return alertDescriptionText;
-	}
-    
-    public TranslatedString getAlertHeaderText() {
-		return alertHeaderText;
-	}
-    public String getEffectiveStartDate() {
-		return effectiveStartDate;
-	}
-    
-    public TranslatedString getAlertUrl() {
-		return alertUrl;
-	}
-    
-    public void setAlertDescriptionText(TranslatedString alertDescriptionText) {
-		this.alertDescriptionText = alertDescriptionText;
-	}
-    
-    public void setAlertHeaderText(TranslatedString alertHeaderText) {
-		this.alertHeaderText = alertHeaderText;
-	}
-    
-    public void setAlertUrl(TranslatedString alertUrl) {
-		this.alertUrl = alertUrl;
-	}
-    
-    public void setEffectiveStartDate(String effectiveStartDate) {
-		this.effectiveStartDate = effectiveStartDate;
-	}
-    
-    public static String getDefaultlanguage() {
-		return defaultLanguage;
-	}
     
 }
