@@ -271,7 +271,7 @@ public class Leg {
             text = alert.getAlertHeaderText().getSomeTranslation();
         }
         if (text == null) {
-            text = alert.alertUrl.getSomeTranslation();
+            text = alert.getAlertUrl().getSomeTranslation();
         }
         
         if (!notes.contains(text)) {

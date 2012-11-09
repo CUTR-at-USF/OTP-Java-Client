@@ -14,8 +14,6 @@
 package org.opentripplanner.routing.patch;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -30,14 +28,14 @@ public class Alerts implements Serializable {
     @Getter @Setter private AlertHeaderText alertHeaderText;
 
     
-    @Getter @Setter public AlertHeaderText alertDescriptionText;
+    @Getter @Setter private AlertHeaderText alertDescriptionText;
 
     
-    @Getter @Setter public AlertHeaderText alertUrl;
+    @Getter @Setter private AlertHeaderText alertUrl;
 
     //null means unknown
     
-    @Getter @Setter public String effectiveStartDate;
+    @Getter @Setter private String effectiveStartDate;
 
 //    public static HashSet<Alerts> newSimpleAlertSet(String text) {
 //        Alerts note = createSimpleAlerts(text);
