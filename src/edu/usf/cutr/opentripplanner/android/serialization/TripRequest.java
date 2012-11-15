@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import org.opentripplanner.api.ws.Response;
+import org.opentripplanner.v092snapshot.api.ws.*;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -71,7 +71,7 @@ public class TripRequest extends AsyncTask<String, Integer, Long> {
 		}
 
 		if (response != null && response.getPlan() != null
-				&& response.getPlan().itineraries.get(0) != null) {
+				&& response.getPlan().getItinerary().get(0) != null) {
 			callback.onTripRequestComplete("De-serialization SUCCESSFUL!!");
 			Log.v(TAG, "Success!!");
 		} else {
