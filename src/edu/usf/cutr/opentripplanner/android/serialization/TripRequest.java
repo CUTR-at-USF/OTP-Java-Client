@@ -38,17 +38,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 
 public class TripRequest extends AsyncTask<String, Integer, Long> {
-	private Response response;
+	private Response[] responses;
 	private static final String TAG = "OTP";
 	private ProgressDialog progressDialog;
 	// private MainActivity mainActivity;
 	private Context context;
 	private TripRequestCompleteListener callback;
+	
+	public static final String SUCCESS = "De-serialization SUCCESSFUL!!";
+	public static final String FAILURE = "De-serialization ERROR!!";
 
 	public TripRequest(Context context, TripRequestCompleteListener callback) {
 		this.context = context;
 		this.callback = callback;
-		progressDialog = new ProgressDialog(context);
+		progressDialog = new ProgressDialog(context);		
 	}
 
 	protected void onPreExecute() {
@@ -58,10 +61,14 @@ public class TripRequest extends AsyncTask<String, Integer, Long> {
 
 	protected Long doInBackground(String... reqs) {
 		int count = reqs.length;
+		
+		responses = new Response[count];
 		long totalSize = 0;
+		
 		for (int i = 0; i < count; i++) {
-			response = requestPlan(reqs[i]);
+			responses[i] = requestPlan(reqs[i]);
 		}
+		
 		return totalSize;
 	}
 
@@ -69,24 +76,30 @@ public class TripRequest extends AsyncTask<String, Integer, Long> {
 		if (progressDialog.isShowing()) {
 			progressDialog.dismiss();
 		}
-
-		if (response != null && response.getPlan() != null
-				&& response.getPlan().getItinerary().get(0) != null) {
-			callback.onTripRequestComplete("De-serialization SUCCESSFUL!!");
-			Log.v(TAG, "Success!!");
-		} else {
-			// TODO - handle errors here?
-			if (response != null && response.getError() != null) {
-				String msg = String.valueOf(response.getError().getId());
-				AlertDialog.Builder feedback = new AlertDialog.Builder(context);
-				feedback.setTitle("Error Planning Trip");
-				feedback.setMessage(msg);
-				feedback.setNeutralButton("OK", null);
-				feedback.create().show();
+		
+		for(int i = 0; i < responses.length; i++){
+			if (responses[i] != null && responses[i].getPlan() != null
+					&& responses[i].getPlan().getItinerary().get(0) != null) {
+				callback.onTripRequestComplete(SUCCESS);
+				Log.d(TAG, "Response " + i + ": " + SUCCESS);
+			} else {
+				// TODO - handle errors here?
+				if (responses[i] != null && responses[i].getError() != null) {
+					String msg = String.valueOf(responses[i].getError().getId());
+					AlertDialog.Builder feedback = new AlertDialog.Builder(context);
+					feedback.setTitle("Error Planning Trip");
+					feedback.setMessage(msg);
+					feedback.setNeutralButton("OK", null);
+					feedback.create().show();
+				}
+				callback.onTripRequestComplete(FAILURE);
+				Log.e(TAG, "Response " + i + ": " + FAILURE);
 			}
-			callback.onTripRequestComplete("De-serialization ERROR!!");
-			Log.e(TAG, "No route to display!");
 		}
+		
+		callback.onTripBatchRequestComplete(responses);
+			
+		
 	}
 
 	/**

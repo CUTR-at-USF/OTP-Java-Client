@@ -28,6 +28,7 @@ import org.opentripplanner.api.ws.Request;
 import org.opentripplanner.routing.core.OptimizeType;
 import org.opentripplanner.routing.core.TraverseMode;
 import org.opentripplanner.routing.core.TraverseModeSet;
+import org.opentripplanner.v092snapshot.api.ws.Response;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -44,6 +45,19 @@ import android.widget.Toast;
 public class MainActivity extends Activity implements TripRequestCompleteListener{
     /** Called when the activity is first created. */
 	private static final String TAG = "OTP";
+	
+	public static String[] requestUrls;
+	
+	public static Response[] responses;
+	
+	public static void setRequestUrl(String[] requestUrl) {
+		MainActivity.requestUrls = requestUrl;
+	}
+	
+	public Response[] getResponses() {
+		return responses;
+	}
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,12 +80,19 @@ public class MainActivity extends Activity implements TripRequestCompleteListene
     	//Different server
     	//String requestUrl = "http://mapserv.askmorgan.net:8080/opentripplanner-api-webapp/ws/plan?fromPlace=15.600110,32.523766&toPlace=15.570678,32.542649&mode=WALK&min=QUICK&maxWalkDistance=840&time=5:58%20pm&date=7/14/2012&arriveBy=false&itinID=1&wheelchair=false";//getRequestUrl();//"http://opentripplanner.usf.edu/opentripplanner-api-webapp/ws/plan?optimize=QUICK&showIntermediateStops=true&time=02:04pm&arriveBy=false&wheelchair=false&maxWalkDistance=1600.0&fromPlace=28.058984%2C+-82.412473&toPlace=28.011376%2C+-82.390251&date=06/06/12&mode=WALK,TRAM,SUBWAY,RAIL,BUS,FERRY,CABLE_CAR,GONDOLA,FUNICULAR,TRANSIT,TRAINISH,BUSISH";
     	
-    	//Walk and Transit
-    	String requestUrl = "http://opentripplanner.usf.edu/opentripplanner-api-webapp/ws/plan?optimize=QUICK&showIntermediateStops=true&fromPlace=28.065041,-82.412778&toPlace=28.022204,-82.431101&mode=TRANSIT,WALK&min=QUICK&maxWalkDistance=840&time=5:32%20pm&date=10/26/2012&arr=Depart&itinID=1&wheelchair=false"; 
-		
-		Log.v(TAG, requestUrl);
+    	requestUrls = new String[3];
     	
-		new TripRequest(this, this).execute(requestUrl);
+    	//Walk and Transit
+    	requestUrls[0] = "http://opentripplanner.usf.edu/opentripplanner-api-webapp/ws/plan?optimize=QUICK&showIntermediateStops=true&fromPlace=28.065041,-82.412778&toPlace=28.022204,-82.431101&mode=TRANSIT,WALK&min=QUICK&maxWalkDistance=840&time=5:32%20pm&date=10/26/2012&arr=Depart&itinID=1&wheelchair=false"; 
+		requestUrls[1] = "http://rtp.trimet.org/opentripplanner-api-webapp/ws/plan?optimize=QUICK&showIntermediateStops=true&fromPlace=45.522998,-122.676181&toPlace=45.491479,-122.696266&mode=TRANSIT,WALK&min=QUICK&maxWalkDistance=840&time=5:32%20pm&date=11/26/2012&arr=Depart&itinID=1&wheelchair=false";
+		requestUrls[2] = "http://mapserv.askmorgan.net:8080/opentripplanner-api-webapp/ws/plan?fromPlace=15.600110,32.523766&toPlace=15.570678,32.542649&mode=WALK&min=QUICK&maxWalkDistance=840&time=5:58%20pm&date=7/14/2012&arriveBy=false&itinID=1&wheelchair=false";//getRequestUrl();//"http://opentripplanner.usf.edu/opentripplanner-api-webapp/ws/plan?optimize=QUICK&showIntermediateStops=true&time=02:04pm&arriveBy=false&wheelchair=false&maxWalkDistance=1600.0&fromPlace=28.058984%2C+-82.412473&toPlace=28.011376%2C+-82.390251&date=06/06/12&mode=WALK,TRAM,SUBWAY,RAIL,BUS,FERRY,CABLE_CAR,GONDOLA,FUNICULAR,TRANSIT,TRAINISH,BUSISH
+    	
+    	for(int i = 0; i < requestUrls.length; i++){
+    		Log.d(TAG, "Request " + i + ": " + requestUrls[i]);
+    	}
+		
+    	
+		new TripRequest(this, this).execute(requestUrls);
     }
     
     private String getRequestUrl(){
@@ -128,5 +149,24 @@ public class MainActivity extends Activity implements TripRequestCompleteListene
 		// TODO Auto-generated method stub
 		Toast toast = Toast.makeText(this.getApplicationContext(), result, Toast.LENGTH_LONG);
 		toast.show();
+	}
+	
+	@Override
+	public void onTripBatchRequestComplete(Response[] responses) {
+		//Batch result of responses for all results is passed here, so save it locally
+		this.responses = responses;
+		
+		int countFailures = 0;
+		int countSuccesses = 0;
+		
+		for (int i = 0; i < responses.length; i++){
+			if(responses[i] == null){
+				countFailures++;
+			}else{
+				countSuccesses++;
+			}
+		}
+		
+		Log.v(TAG, "Batch Results = " + countSuccesses + " out of " + responses.length + " passed");
 	}
 }
